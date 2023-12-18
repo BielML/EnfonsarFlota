@@ -1,0 +1,288 @@
+import java.util.Scanner;
+
+public class Enfonsar_Flota {
+	public static final String RESET = "\u001B[0m";
+	public static final String BLACK = "\u001B[30m";
+	public static final String RED = "\u001B[31m";
+	public static final String GREEN = "\u001B[32m";
+	public static final String YELLOW = "\u001B[33m";
+	public static final String BLUE = "\u001B[34m";
+	public static final String PURPLE = "\u001B[35m";
+	public static final String CYAN = "\u001B[36m";
+	public static final String WHITE = "\u001B[37m";
+	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+	
+	public static int[][] marp1 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, } };
+
+	public static int[][] Pvarqito1 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, } };
+
+	public static int[][] marp2 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, } };
+
+	public static int[][] Pvarqito2 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, } };
+
+	public static int[] colocaciovar1 = { 1, 1, 2, 3, 3 };
+	public static int[] colocaciovar2 = { 1, 1, 2, 3, 3 };
+
+	public static void main(String[] args) {
+		Scanner teclat = new Scanner(System.in);
+
+		/* ------------ MINI MAIN ------------ */
+
+		while (true) {
+			instruc();
+			impTaula(Pvarqito1);
+
+			String codi = teclat.next();
+			int tamanyvarco = Integer.parseInt((decodificador(codi, "0")));
+			String orientacio = decodificador(codi, "1");
+			int posvertical = Integer.parseInt((decodificador(codi, "2")));
+			int poshoritzontal = Integer.parseInt((decodificador(codi, "3")));
+
+			if (compCodi(tamanyvarco, orientacio, posvertical, poshoritzontal)
+					&& varqitoPosat(tamanyvarco, orientacio, posvertical, poshoritzontal)
+					&& comprbrPosVarco(tamanyvarco, orientacio, posvertical, poshoritzontal)) {
+
+				FicarVarcoDef(Pvarqito1, colocaciovar1, tamanyvarco, orientacio, posvertical, poshoritzontal);
+				if (tamanyvarco == 5) {
+					colocaciovar1[0] = colocaciovar1[0] - 1;
+				}
+				if (tamanyvarco == 4) {
+					colocaciovar1[1] = colocaciovar1[1] - 1;
+				}
+				if (tamanyvarco == 3) {
+					colocaciovar1[2] = colocaciovar1[2] - 1;
+				}
+				if (tamanyvarco == 2) {
+					colocaciovar1[3] = colocaciovar1[3] - 1;
+				}
+				if (tamanyvarco == 1) {
+					colocaciovar1[4] = colocaciovar1[4] - 1;
+				}
+				System.out.println("Varquitos restants:");
+				System.out.println("Varquito de tamany 5 dispomnibles: " + colocaciovar1[0]);
+				System.out.println("Varquito de tamany 4 dispomnibles: " + colocaciovar1[1]);
+				System.out.println("Varquito de tamany 3 dispomnibles: " + colocaciovar1[2]);
+				System.out.println("Varquito de tamany 2 dispomnibles: " + colocaciovar1[3]);
+				System.out.println("Varquito de tamany 1 dispomnibles: " + colocaciovar1[4]);
+			}else	 {
+				System.out.println("Codi Erroni, Introdueix-lo un-a altra vegada");
+			}
+
+		}
+	}
+
+	public static void impTaula(int taula[][]) {
+
+		String blue = "\033[36m";
+		String red = "\033[31m";
+		String rst = "\u001B[0m";
+
+		System.out.println("   A   B   C   D   E   F   G   H   I   j  ");
+		System.out.println(CYAN+" ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐");
+
+		for (int i = 0; i < taula.length; i++) {
+			System.out.print(rst+i+CYAN);
+			for (int j = 0; j < taula.length; j++) {
+
+				if (taula[i][j] == 0) {
+					System.out.print(CYAN+"|"+CYAN+" ■ "+rst);
+				} else if (taula[i][j] == 1) {
+					System.out.print(CYAN+"│ " +WHITE+ "◙" +rst+" "+ rst);
+				} else if (taula[i][j] == -1) {
+					System.out.print(CYAN+"│" + blue + " ♦ " + rst);
+				}
+			}
+			System.out.println(CYAN+"│");
+
+			if (i != 9) {
+				System.out.println(CYAN+" ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤");
+			}
+
+		}
+		System.out.println(CYAN+" └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘"+rst);
+	}
+
+	public static boolean compCodi(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal) {
+
+		if (tamanyvarco == 5 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 5) {
+			return true;
+		} else if (tamanyvarco == 5 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 5) {
+			return true;
+		}
+
+		else if (tamanyvarco == 4 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 6) {
+			return true;
+		} else if (tamanyvarco == 4 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 6) {
+			return true;
+		}
+
+		else if (tamanyvarco == 3 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 7) {
+
+			
+			return true;
+		} else if (tamanyvarco == 3 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 7) {
+			
+			return true;
+		}
+
+		else if (tamanyvarco == 2 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 8) { // AQUST
+																												// SI
+																												// FUNCIONE
+																												// CORRECTAMENT
+			return true;
+		} else if (tamanyvarco == 2 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 8) {
+			return true;
+		}
+
+		else if (tamanyvarco == 1 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 9) {
+			return true;
+		} else if (tamanyvarco == 1 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 9) {
+			return true;
+		} else
+			
+		return false;
+	}
+
+	public static String decodificador(String codi, String Qvolem) {
+
+		String poshoritzontal = "";
+		String posvertical = "";
+		String orientacio = "";
+		String tamanyvarco = "";
+
+		for (int i = 0; i < 4; i++) {
+			char lletra = codi.charAt(i);
+			if (i == 0) {
+				tamanyvarco = "";
+				tamanyvarco = tamanyvarco + lletra;
+				if (Qvolem.equals("0")) {
+					return tamanyvarco;
+				}
+
+			} else if (i == 1) {
+				orientacio = "";
+				orientacio = orientacio + lletra;
+				if (Qvolem.equals("1")) {
+					return orientacio;
+				}
+
+			} else if (i == 2) {
+				posvertical = "";
+				posvertical = posvertical + lletra;
+				if (posvertical.equals("A") || posvertical.equals("a")) {
+					posvertical = "0";
+				} else if (posvertical.equals("B") || posvertical.equals("b")) {
+					posvertical = "1";
+				} else if (posvertical.equals("C") || posvertical.equals("c")) {
+					posvertical = "2";
+				} else if (posvertical.equals("D") || posvertical.equals("d")) {
+					posvertical = "3";
+				} else if (posvertical.equals("E") || posvertical.equals("e")) {
+					posvertical = "4";
+				} else if (posvertical.equals("F") || posvertical.equals("f")) {
+					posvertical = "5";
+				} else if (posvertical.equals("G") || posvertical.equals("g")) {
+					posvertical = "6";
+				} else if (posvertical.equals("H") || posvertical.equals("h")) {
+					posvertical = "7";
+				} else if (posvertical.equals("I") || posvertical.equals("i")) {
+					posvertical = "8";
+				} else if (posvertical.equals("J") || posvertical.equals("j")) {
+					posvertical = "9";
+				}
+				if (Qvolem.equals("2")) {
+
+					return posvertical;
+				}
+
+			} else if (i == 3) {
+				poshoritzontal = "";
+				poshoritzontal = poshoritzontal + lletra;
+				if (Qvolem.equals("3")) {
+					return poshoritzontal;
+
+				}
+			}
+		}
+		return "error";
+	}
+
+	public static boolean varqitoPosat(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal) {
+
+		if (tamanyvarco == 5 && colocaciovar1[0] > 0) {
+			return true;
+		} else if (tamanyvarco == 4 && colocaciovar1[1] > 0) {
+			return true;
+		} else if (tamanyvarco == 3 && colocaciovar1[2] > 0) {
+			return true;
+		} else if (tamanyvarco == 2 && colocaciovar1[3] > 0) {
+			return true;
+		} else if (tamanyvarco == 1 && colocaciovar1[4] > 0) {
+			return true;
+		}
+		System.out.println("No posible ficar barco");
+		return false;
+
+	}
+
+	public static boolean comprbrPosVarco(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal) {
+		/* PRIMERA POSICIO */
+		if ((tamanyvarco > 0 && tamanyvarco <= 5) && (orientacio.equals("H") || orientacio.equals("h"))) {
+			if ((11 - tamanyvarco) >= posvertical) {
+				System.out.println("╔════════════════ VA GUCCI HORITZONTALMENT ════════════════╗");
+				return true;
+			}
+		} else if ((tamanyvarco > 0 && tamanyvarco <= 5) && (orientacio.equals("V") || orientacio.equals("v"))) {
+			if ((11 - tamanyvarco) > poshoritzontal) {
+				System.out.println("╔══════════════ VA GUCCI VRTICAKLMEN═════════════════╗");
+				return true;
+			} else {
+				System.out.println("╔══════════════NO VA GUCCI DIRECTAMEN═════════════════╗");
+				return false;
+
+			}
+		}
+		System.out.println("ULTIMA OPCIO");
+		return false;
+	}
+
+	public static void instruc() {
+		System.out.println("╔════════════════════════════════════════════════════════════╗");
+		System.out.println("║  1ªPos: TAMANY VAIXELL: (5-4-3-2-1)   		     ║");
+		System.out.println("║  2ªPos: ORIENTACIO VAIXELL:(V):Vertical--(H):Horitzontal   ║");
+		System.out.println("║  3ªPos: POSICIO VERTICAL DEL TAULER (LLETRA)		     ║");
+		System.out.println("║  4ªPos: POSICIO HORITZONAL DEL TAULER (NUMERO)             ║");
+		System.out.println("║  EXEMPLE: 5HF6                                             ║");
+		System.out.println("╚════════════════════════════════════════════════════════════╝");
+	}
+
+	public static void FicarVarcoDef(int[][] Pvarqito1, int colocaciovar1[], int tamanyvarco, String orientacio,
+			int posvertical, int poshoritzontal) {
+
+		if (orientacio.equals("H") || orientacio.equals("h")) {
+			// FICAR VARCO VERTICAL
+			for (int i = 0; i < tamanyvarco; i++) {
+				Pvarqito1[poshoritzontal][posvertical + i] = 1;
+			}
+		} else if (orientacio.equals("V") || orientacio.equals("v"))
+			// FICAR VARCO HORITZONTAL
+			for (int i = 0; i < tamanyvarco; i++) {
+				Pvarqito1[poshoritzontal + i][posvertical] = 1;
+			}
+
+	}
+
+}
