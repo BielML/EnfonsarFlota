@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Enfonsar_Flota {
@@ -12,7 +13,7 @@ public class Enfonsar_Flota {
 	public static final String WHITE = "\u001B[37m";
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-	
+
 	public static int[][] marp1 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
@@ -33,17 +34,23 @@ public class Enfonsar_Flota {
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, } };
 
-	public static int[] colocaciovar1 = { 1, 1, 2, 3, 3 };
+	public static Scanner teclat = new Scanner(System.in);
+	public static ArrayList<String> bstArray1 = new ArrayList<String>();
+	public static ArrayList<String> bstArray2 = new ArrayList<String>();
+
+	public static int[] colocaciovar1 = { 1, 1, 2, 3, 3 };//5/4/3/2/1
 	public static int[] colocaciovar2 = { 1, 1, 2, 3, 3 };
 
 	public static void main(String[] args) {
 		Scanner teclat = new Scanner(System.in);
 
-		/* ------------ MINI MAIN ------------ */
-
-		while (true) {
+		/* ------------ CASI MINI MAIN ------------ */
+		boolean J1 = true;
+		while (J1) {
 			instruc();
 			impTaula(Pvarqito1);
+
+			System.out.println("Introdueix els barcos:");
 
 			String codi = teclat.next();
 			int tamanyvarco = Integer.parseInt((decodificador(codi, "0")));
@@ -52,8 +59,9 @@ public class Enfonsar_Flota {
 			int poshoritzontal = Integer.parseInt((decodificador(codi, "3")));
 
 			if (compCodi(tamanyvarco, orientacio, posvertical, poshoritzontal)
-					&& varqitoPosat(tamanyvarco, orientacio, posvertical, poshoritzontal)
-					&& comprbrPosVarco(tamanyvarco, orientacio, posvertical, poshoritzontal)) {
+					&& varqitoPosat(tamanyvarco, orientacio, posvertical, poshoritzontal, colocaciovar1)
+					&& comprbrPosVarco(tamanyvarco, orientacio, posvertical, poshoritzontal)
+					&& varcoX(Pvarqito1, colocaciovar1, tamanyvarco, orientacio, posvertical, poshoritzontal)) {
 
 				FicarVarcoDef(Pvarqito1, colocaciovar1, tamanyvarco, orientacio, posvertical, poshoritzontal);
 				if (tamanyvarco == 5) {
@@ -77,11 +85,231 @@ public class Enfonsar_Flota {
 				System.out.println("Varquito de tamany 3 dispomnibles: " + colocaciovar1[2]);
 				System.out.println("Varquito de tamany 2 dispomnibles: " + colocaciovar1[3]);
 				System.out.println("Varquito de tamany 1 dispomnibles: " + colocaciovar1[4]);
-			}else	 {
+			} else {
 				System.out.println("Codi Erroni, Introdueix-lo un-a altra vegada");
+			}
+			if (colocaciovar1[0] == 0 && colocaciovar1[1] == 0 && colocaciovar1[2] == 0 && colocaciovar1[3] == 0
+					&& colocaciovar1[4] == 0) {
+				J1 = false;
+				System.out.println("Colocacio de varcos J1 Finalitzat");
 			}
 
 		}
+		boolean J2 = true;
+		while (J2) {
+			instruc();
+			impTaula(Pvarqito2);
+
+			System.out.println("Introdueix els barcos:");
+
+			String codi = teclat.next();
+			int tamanyvarco = Integer.parseInt((decodificador(codi, "0")));
+			String orientacio = decodificador(codi, "1");
+			int posvertical = Integer.parseInt((decodificador(codi, "2")));
+			int poshoritzontal = Integer.parseInt((decodificador(codi, "3")));
+
+			if (compCodi(tamanyvarco, orientacio, posvertical, poshoritzontal)
+					&& varqitoPosat(tamanyvarco, orientacio, posvertical, poshoritzontal, colocaciovar2)
+					&& comprbrPosVarco(tamanyvarco, orientacio, posvertical, poshoritzontal)
+					&& varcoX(Pvarqito2, colocaciovar2, tamanyvarco, orientacio, posvertical, poshoritzontal)) {
+
+				FicarVarcoDef(Pvarqito2, colocaciovar2, tamanyvarco, orientacio, posvertical, poshoritzontal);
+				if (tamanyvarco == 5) {
+					colocaciovar2[0] = colocaciovar2[0] - 1;
+				}
+				if (tamanyvarco == 4) {
+					colocaciovar2[1] = colocaciovar2[1] - 1;
+				}
+				if (tamanyvarco == 3) {
+					colocaciovar2[2] = colocaciovar2[2] - 1;
+				}
+				if (tamanyvarco == 2) {
+					colocaciovar2[3] = colocaciovar2[3] - 1;
+				}
+				if (tamanyvarco == 1) {
+					colocaciovar2[4] = colocaciovar2[4] - 1;
+				}
+				System.out.println("Varquitos restants:");
+				System.out.println("Varquito de tamany 5 dispomnibles: " + colocaciovar2[0]);
+				System.out.println("Varquito de tamany 4 dispomnibles: " + colocaciovar2[1]);
+				System.out.println("Varquito de tamany 3 dispomnibles: " + colocaciovar2[2]);
+				System.out.println("Varquito de tamany 2 dispomnibles: " + colocaciovar2[3]);
+				System.out.println("Varquito de tamany 1 dispomnibles: " + colocaciovar2[4]);
+			} else {
+				System.out.println("Codi Erroni, Introdueix-lo un-a altra vegada");
+			}
+			if (colocaciovar2[0] == 0 && colocaciovar2[1] == 0 && colocaciovar2[2] == 0 && colocaciovar2[3] == 0
+					&& colocaciovar2[4] == 0) {
+				J2 = false;
+				System.out.println("Colocacio de varcos J2 Finalitzat");
+			}
+
+			/* ----------------------- SºN CUASI CHIQUI MINI MAÌn ----------------------- */
+
+			int p = 1;
+			boolean turn = true;
+
+			while (true) {
+				if (turn==false) {
+					if (p == 2) {
+						p = 1;
+					} else {
+						p = 2;
+					}
+				}
+
+				if (tiroJugdr(p)==true) {
+					turn = true;
+				}else {
+					turn = false;
+				}
+
+			}
+		}
+
+	}
+
+	
+	public static boolean tiroJugdr(int p) {
+		
+		if (p == 1) {
+			System.out.println("Torn J1");
+		} else if (p == 2) {
+			System.out.println("Torn J2");
+		}
+		String cord = teclat.next();
+		int cordvertical = Integer.parseInt((decodificador2(cord, "1")));
+		int cordhoritzontal = Integer.parseInt((decodificador2(cord, "2")));
+		if (p == 1) {
+			if(bstArray1.contains(cord)) {
+			System.out.print("Coordenada repetida");
+			if (p == 1) {
+				System.out.println(" J1");
+			} else if (p == 2) {
+				System.out.println(" J2");
+			}
+			System.out.println("canvi de jugador per incoherent");
+			return false;	
+		}else {
+			bstArray1.add(cord);
+		}
+			
+		} else if (p == 2) {
+			if(bstArray2.contains(decodificador2(cord, "1")+decodificador2(cord, "2"))) {
+				System.out.print("Coordenada repetida");
+				if (p == 1) {
+					System.out.println(" J1");
+				} else if (p == 2) {
+					System.out.println(" J2");
+				}
+				System.out.println("canvi de jugador per incoherent");
+				return false;	
+			}else {
+				bstArray2.add(decodificador2(cord, "1")+decodificador2(cord, "2"));
+			}
+		}
+		
+		
+		
+		if (p == 1) {
+
+			if (Pvarqito2[cordvertical][cordhoritzontal] == 1) {
+				System.out.println("BoOOM!!");
+				marp1[cordvertical][cordhoritzontal] = 2;
+				impTaula(marp1);
+				return true;
+			} else if (Pvarqito2[cordvertical][cordhoritzontal] == 0) {
+				System.out.println("Splash!!");
+				marp1[cordvertical][cordhoritzontal] = -1;
+				impTaula(marp1);
+				return false;
+			}
+			
+		} else if (p == 2) {
+			if (Pvarqito1[cordvertical][cordhoritzontal] == 1) {
+				System.out.println("BoOOM!!");
+				marp2[cordvertical][cordhoritzontal] = 2;
+				impTaula(marp2);
+				return true;
+			} else if (Pvarqito1[cordvertical][cordhoritzontal] == 0) {
+				System.out.println("Splash!!");
+				marp2[cordvertical][cordhoritzontal] = -1;
+				impTaula(marp2);
+				return false;
+			}
+			
+		}
+
+		return false;
+	}
+
+	public static String decodificador2(String codi, String Qvolem) {
+
+		String poshoritzontal = "";
+		String posvertical = "";
+
+		for (int i = 0; i < codi.length(); i++) {
+			char lletra = codi.charAt(i);
+			if (i == 0) {
+				posvertical = "";
+				posvertical = posvertical + lletra;
+				if (posvertical.equals("A") || posvertical.equals("a")) {
+					posvertical = "0";
+				} else if (posvertical.equals("B") || posvertical.equals("b")) {
+					posvertical = "1";
+				} else if (posvertical.equals("C") || posvertical.equals("c")) {
+					posvertical = "2";
+				} else if (posvertical.equals("D") || posvertical.equals("d")) {
+					posvertical = "3";
+				} else if (posvertical.equals("E") || posvertical.equals("e")) {
+					posvertical = "4";
+				} else if (posvertical.equals("F") || posvertical.equals("f")) {
+					posvertical = "5";
+				} else if (posvertical.equals("G") || posvertical.equals("g")) {
+					posvertical = "6";
+				} else if (posvertical.equals("H") || posvertical.equals("h")) {
+					posvertical = "7";
+				} else if (posvertical.equals("I") || posvertical.equals("i")) {
+					posvertical = "8";
+				} else if (posvertical.equals("J") || posvertical.equals("j")) {
+					posvertical = "9";
+				}
+				if (Qvolem.equals("1")) {
+
+					return posvertical;
+				}
+
+			} else if (i == 1) {
+				poshoritzontal = "";
+				poshoritzontal = poshoritzontal + lletra;
+				if (poshoritzontal.equals("A") || poshoritzontal.equals("a")) {
+					poshoritzontal = "0";
+				} else if (poshoritzontal.equals("B") || poshoritzontal.equals("b")) {
+					poshoritzontal = "1";
+				} else if (poshoritzontal.equals("C") || poshoritzontal.equals("c")) {
+					poshoritzontal = "2";
+				} else if (poshoritzontal.equals("D") || poshoritzontal.equals("d")) {
+					poshoritzontal = "3";
+				} else if (poshoritzontal.equals("E") || poshoritzontal.equals("e")) {
+					poshoritzontal = "4";
+				} else if (poshoritzontal.equals("F") || poshoritzontal.equals("f")) {
+					poshoritzontal = "5";
+				} else if (poshoritzontal.equals("G") || poshoritzontal.equals("g")) {
+					poshoritzontal = "6";
+				} else if (poshoritzontal.equals("H") || poshoritzontal.equals("h")) {
+					poshoritzontal = "7";
+				} else if (poshoritzontal.equals("I") || poshoritzontal.equals("i")) {
+					poshoritzontal = "8";
+				} else if (poshoritzontal.equals("J") || poshoritzontal.equals("j")) {
+					poshoritzontal = "9";
+				}
+				if (Qvolem.equals("2")) {
+					return poshoritzontal;
+
+				}
+			}
+		}
+		return "error";
 	}
 
 	public static void impTaula(int taula[][]) {
@@ -91,28 +319,30 @@ public class Enfonsar_Flota {
 		String rst = "\u001B[0m";
 
 		System.out.println("   A   B   C   D   E   F   G   H   I   j  ");
-		System.out.println(CYAN+" ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐");
+		System.out.println(CYAN + " ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐");
 
 		for (int i = 0; i < taula.length; i++) {
-			System.out.print(rst+i+CYAN);
+			System.out.print(rst + i + CYAN);
 			for (int j = 0; j < taula.length; j++) {
 
 				if (taula[i][j] == 0) {
-					System.out.print(CYAN+"|"+CYAN+" ■ "+rst);
+					System.out.print(CYAN + "|" + CYAN + " ■ " + rst);
 				} else if (taula[i][j] == 1) {
-					System.out.print(CYAN+"│ " +WHITE+ "◙" +rst+" "+ rst);
+					System.out.print(CYAN + "│ " + WHITE + "◙" + rst + " " + rst);
 				} else if (taula[i][j] == -1) {
-					System.out.print(CYAN+"│" + blue + " ♦ " + rst);
+					System.out.print(CYAN + "│" + WHITE + " X " + rst);
+				} else if (taula[i][j] == 2) {
+					System.out.print(CYAN + "│" + RED + " ¤ " + rst);
 				}
 			}
-			System.out.println(CYAN+"│");
+			System.out.println(CYAN + "│");
 
 			if (i != 9) {
-				System.out.println(CYAN+" ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤");
+				System.out.println(CYAN + " ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤");
 			}
 
 		}
-		System.out.println(CYAN+" └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘"+rst);
+		System.out.println(CYAN + " └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘" + rst);
 	}
 
 	public static boolean compCodi(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal) {
@@ -131,10 +361,9 @@ public class Enfonsar_Flota {
 
 		else if (tamanyvarco == 3 && (orientacio.equals("H") || orientacio.equals("h")) && posvertical <= 7) {
 
-			
 			return true;
 		} else if (tamanyvarco == 3 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 7) {
-			
+
 			return true;
 		}
 
@@ -152,8 +381,8 @@ public class Enfonsar_Flota {
 		} else if (tamanyvarco == 1 && (orientacio.equals("V") || orientacio.equals("v")) && poshoritzontal <= 9) {
 			return true;
 		} else
-			
-		return false;
+
+			return false;
 	}
 
 	public static String decodificador(String codi, String Qvolem) {
@@ -211,6 +440,27 @@ public class Enfonsar_Flota {
 			} else if (i == 3) {
 				poshoritzontal = "";
 				poshoritzontal = poshoritzontal + lletra;
+				if (poshoritzontal.equals("A") || poshoritzontal.equals("a")) {
+					poshoritzontal = "0";
+				} else if (poshoritzontal.equals("B") || poshoritzontal.equals("b")) {
+					poshoritzontal = "1";
+				} else if (poshoritzontal.equals("C") || poshoritzontal.equals("c")) {
+					poshoritzontal = "2";
+				} else if (poshoritzontal.equals("D") || poshoritzontal.equals("d")) {
+					poshoritzontal = "3";
+				} else if (poshoritzontal.equals("E") || poshoritzontal.equals("e")) {
+					poshoritzontal = "4";
+				} else if (poshoritzontal.equals("F") || poshoritzontal.equals("f")) {
+					poshoritzontal = "5";
+				} else if (poshoritzontal.equals("G") || poshoritzontal.equals("g")) {
+					poshoritzontal = "6";
+				} else if (poshoritzontal.equals("H") || poshoritzontal.equals("h")) {
+					poshoritzontal = "7";
+				} else if (poshoritzontal.equals("I") || poshoritzontal.equals("i")) {
+					poshoritzontal = "8";
+				} else if (poshoritzontal.equals("J") || poshoritzontal.equals("j")) {
+					poshoritzontal = "9";
+				}
 				if (Qvolem.equals("3")) {
 					return poshoritzontal;
 
@@ -220,7 +470,8 @@ public class Enfonsar_Flota {
 		return "error";
 	}
 
-	public static boolean varqitoPosat(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal) {
+	public static boolean varqitoPosat(int tamanyvarco, String orientacio, int posvertical, int poshoritzontal,
+			int[] colocaciovar1) {
 
 		if (tamanyvarco == 5 && colocaciovar1[0] > 0) {
 			return true;
@@ -242,15 +493,15 @@ public class Enfonsar_Flota {
 		/* PRIMERA POSICIO */
 		if ((tamanyvarco > 0 && tamanyvarco <= 5) && (orientacio.equals("H") || orientacio.equals("h"))) {
 			if ((11 - tamanyvarco) >= posvertical) {
-				System.out.println("╔════════════════ VA GUCCI HORITZONTALMENT ════════════════╗");
+//				System.out.println("╔════════════════ VA GUCCI HORITZONTALMENT ════════════════╗");
 				return true;
 			}
 		} else if ((tamanyvarco > 0 && tamanyvarco <= 5) && (orientacio.equals("V") || orientacio.equals("v"))) {
 			if ((11 - tamanyvarco) > poshoritzontal) {
-				System.out.println("╔══════════════ VA GUCCI VRTICAKLMEN═════════════════╗");
+//				System.out.println("╔══════════════ VA GUCCI VRTICAKLMEN═════════════════╗");
 				return true;
 			} else {
-				System.out.println("╔══════════════NO VA GUCCI DIRECTAMEN═════════════════╗");
+//				System.out.println("╔══════════════NO VA GUCCI DIRECTAMEN═════════════════╗");
 				return false;
 
 			}
@@ -285,4 +536,25 @@ public class Enfonsar_Flota {
 
 	}
 
+	public static boolean varcoX(int[][] Pvarqito1, int colocaciovar1[], int tamanyvarco, String orientacio,
+			int posvertical, int poshoritzontal) {
+		if (orientacio.equals("H") || orientacio.equals("h")) {
+			// FICAR VARCO VERTICAL
+			for (int i = 0; i < tamanyvarco; i++) {
+				if (Pvarqito1[poshoritzontal][posvertical + i] == 1) {
+					return false;
+				}
+
+			}
+		} else if (orientacio.equals("V") || orientacio.equals("v"))
+			// FICAR VARCO HORITZONTAL
+			for (int i = 0; i < tamanyvarco; i++) {
+				if (Pvarqito1[poshoritzontal + i][posvertical] == 1) {
+					return false;
+				}
+
+			}
+
+		return true;
+	}
 }
